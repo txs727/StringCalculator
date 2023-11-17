@@ -5,30 +5,37 @@ namespace StringCalculator
     {
         public static int Add(string input)
         {
-            if (IsNumeric(input))
+            var (success, result) = GetNumber(input);
+            if (success)
             {
-                return input == "" ? 0 : int.Parse(input);
+                return result;
             }
+            
+            var numbers = GetNumberStrings(input);
 
-
-            var numbers = GetNumbers(input);
-
-            return numbers.Sum(number => int.Parse(number));
+            return numbers.Sum(int.Parse);
         }
 
-        private static string[] GetNumbers(string input)
+        private static string[] GetNumberStrings(string input)
         {
+            if (input.StartsWith("//"))
+            {
+                var parsedInput = input.Split('\n');
+                var delimiter = parsedInput[0][2];
+                return parsedInput[1].Split(delimiter);
+            }
+
             if (input.Contains(','))
-            return input.Split(',');
+                return input.Split(',');
 
             return input.Split('\n');
         }
 
-        private static bool IsNumeric(string input)
+        private static (bool success, int result) GetNumber(string input)
         {
-            bool success = int.TryParse(input, out _);
+            bool success = int.TryParse(input, out int result);
 
-            return input == "" || success;
+            return (input == "" || success, result);
         }
     }
 }
