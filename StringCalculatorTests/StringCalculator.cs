@@ -1,5 +1,3 @@
-using StringCalculator;
-
 namespace StringCalculatorTests
 {
     public class StringCalculatorTests
@@ -16,7 +14,7 @@ namespace StringCalculatorTests
 
             int result = StringCalculator.StringCalculator.Add("");
 
-            Assert.AreEqual(expected, result);
+            Assert.That(result, Is.EqualTo(expected));
         }
 
         [TestCase("1", 1)]
@@ -28,7 +26,7 @@ namespace StringCalculatorTests
         {
             int result = StringCalculator.StringCalculator.Add(input);
 
-            Assert.AreEqual(expected, result);
+            Assert.That(result, Is.EqualTo(expected));
         }
 
         [TestCase("1,1", 2)]
@@ -39,7 +37,17 @@ namespace StringCalculatorTests
         {
             int result = StringCalculator.StringCalculator.Add(input);
 
-            Assert.AreEqual(expected, result);
+            Assert.That(result, Is.EqualTo(expected));
+        }
+
+        [Test]
+        public void Add_PassingNewLineArray_ReturnsSum()
+        {
+            const int expected = 3;
+
+            int result = StringCalculator.StringCalculator.Add("1\n1\n1");
+
+            Assert.That(result, Is.EqualTo(expected));
         }
     }
 }
